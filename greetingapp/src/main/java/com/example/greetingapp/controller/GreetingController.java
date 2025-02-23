@@ -52,5 +52,19 @@ public class GreetingController {
         return greetingService.getAllGreetings();
     }
 
+    // DELETE Method to Remove Greeting
+    @DeleteMapping("/{id}")
+    public Map<String, String> deleteGreeting(@PathVariable Long id) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            String result = greetingService.deleteGreeting(id);
+            response.put("message", result);
+        } catch (RuntimeException e) {
+            response.put("error", e.getMessage());
+        }
+        return response;
+    }
+
+
 
 }
