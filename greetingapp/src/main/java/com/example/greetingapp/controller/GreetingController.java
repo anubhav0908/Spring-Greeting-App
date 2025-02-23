@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -52,5 +53,11 @@ public class GreetingController {
         Map<String, String> response = new HashMap<>();
         response.put("message", "Hello World - DELETE Method");
         return response;
+    }
+
+    // GET All Greetings
+    @GetMapping("/all")
+    public List<Greeting> getAllGreetings() {
+        return greetingService.getAllGreetings();
     }
 }
