@@ -19,15 +19,17 @@ public class GreetingController {
         this.greetingService = greetingService;
     }
 
-    // GET Method for Personalized Greetings
-    @GetMapping
-    public Map<String, String> getGreeting(@RequestParam(required = false) String firstName,
-                                           @RequestParam(required = false) String lastName) {
+    // GET Greeting by ID
+    @GetMapping("/{id}")
+    public Map<String, String> getGreetingById(@PathVariable Long id) {
         Map<String, String> response = new HashMap<>();
-        String greetingMessage = greetingService.getPersonalizedGreeting(firstName, lastName);
-        response.put("message", greetingMessage);
+        greetingService.findGreetingById(id).ifPresentOrElse(
+                greeting -> response.put("message", greeting.getMessage()),
+                () -> response.put("error", "Greeting not found with ID: " + id)
+        );
         return response;
     }
+
 
     // POST Method to Save Greeting
     @PostMapping
