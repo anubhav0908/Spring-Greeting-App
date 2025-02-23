@@ -1,6 +1,9 @@
 package com.example.greetingapp.controller;
 
+import com.example.greetingapp.service.GreetingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,11 +11,19 @@ import java.util.Map;
 @RequestMapping("/greet")
 public class GreetingController {
 
-    // GET Method
+    private final GreetingService greetingService;
+
+    // Constructor Injection
+    @Autowired
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
+
+    // GET Method using Service Layer
     @GetMapping
     public Map<String, String> getGreeting() {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello World - GET Method");
+        response.put("message", greetingService.getGreetingMessage());
         return response;
     }
 
