@@ -13,17 +13,18 @@ public class GreetingController {
 
     private final GreetingService greetingService;
 
-    // Constructor Injection
     @Autowired
     public GreetingController(GreetingService greetingService) {
         this.greetingService = greetingService;
     }
 
-    // GET Method using Service Layer
+    // Updated GET Method for Personalized Greetings
     @GetMapping
-    public Map<String, String> getGreeting() {
+    public Map<String, String> getGreeting(@RequestParam(required = false) String firstName,
+                                           @RequestParam(required = false) String lastName) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", greetingService.getGreetingMessage());
+        String greetingMessage = greetingService.getPersonalizedGreeting(firstName, lastName);
+        response.put("message", greetingMessage);
         return response;
     }
 
