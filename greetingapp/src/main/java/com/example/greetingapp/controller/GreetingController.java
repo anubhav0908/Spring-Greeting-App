@@ -1,5 +1,6 @@
 package com.example.greetingapp.controller;
 
+import com.example.greetingapp.model.Greeting;
 import com.example.greetingapp.service.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class GreetingController {
         this.greetingService = greetingService;
     }
 
-    // Updated GET Method for Personalized Greetings
+    // GET Method for Personalized Greetings
     @GetMapping
     public Map<String, String> getGreeting(@RequestParam(required = false) String firstName,
                                            @RequestParam(required = false) String lastName) {
@@ -28,12 +29,11 @@ public class GreetingController {
         return response;
     }
 
-    // POST Method
+    // POST Method to Save Greeting
     @PostMapping
-    public Map<String, String> postGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello World - POST Method");
-        return response;
+    public Greeting postGreeting(@RequestBody Map<String, String> request) {
+        String message = request.get("message");
+        return greetingService.saveGreeting(message);
     }
 
     // PUT Method
