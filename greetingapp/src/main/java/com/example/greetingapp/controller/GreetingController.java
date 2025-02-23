@@ -20,17 +20,6 @@ public class GreetingController {
         this.greetingService = greetingService;
     }
 
-    // GET Greeting by ID
-    @GetMapping("/{id}")
-    public Map<String, String> getGreetingById(@PathVariable Long id) {
-        Map<String, String> response = new HashMap<>();
-        greetingService.findGreetingById(id).ifPresentOrElse(
-                greeting -> response.put("message", greeting.getMessage()),
-                () -> response.put("error", "Greeting not found with ID: " + id)
-        );
-        return response;
-    }
-
 
     // POST Method to Save Greeting
     @PostMapping
@@ -39,13 +28,15 @@ public class GreetingController {
         return greetingService.saveGreeting(message);
     }
 
-    // PUT Method
-    @PutMapping
-    public Map<String, String> putGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello World - PUT Method");
-        return response;
+
+
+    // PUT Method to Update Greeting
+    @PutMapping("/{id}")
+    public Greeting updateGreeting(@PathVariable Long id, @RequestBody Map<String, String> request) {
+        String newMessage = request.get("message");
+        return greetingService.updateGreeting(id, newMessage);
     }
+
 
     // DELETE Method
     @DeleteMapping
@@ -60,4 +51,6 @@ public class GreetingController {
     public List<Greeting> getAllGreetings() {
         return greetingService.getAllGreetings();
     }
+
+
 }
